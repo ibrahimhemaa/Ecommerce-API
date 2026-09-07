@@ -141,4 +141,3 @@ No Stripe, no credit card needed — the cash-on-delivery path covers most of th
 - Users are soft-deleted (marked inactive) rather than removed from the database.
 - The Stripe webhook needs you to point Stripe at `/api/payments/webhook` with your webhook signing secret in `config.env`.
 
-That's about it. If anything looks off or you hit a wall getting it running, the error message in the console is usually a good starting point.
