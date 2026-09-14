@@ -11,7 +11,10 @@ const options = {
         "RESTful E-commerce API built with Express, MongoDB, JWT auth, Stripe payments, cart, orders, wishlist and more.",
     },
     servers: [
-      { url: `http://localhost:${process.env.PORT || 5000}/api`, description: "Local server" },
+      {
+    url: process.env.API_URL || `http://localhost:${process.env.PORT || 5000}`,
+    description: "API Server",
+  },
     ],
     components: {
       securitySchemes: {
