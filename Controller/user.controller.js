@@ -1,9 +1,11 @@
 import userModel from "../models/user.model.js";
 import asyncHandler from "express-async-handler";
+import path from "path";
 import sharp from "sharp";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { AppError } from "../utils/errorhandler.js";
+import { ensureUploadDir } from "../utils/ensureUploadDir.js";
 import { v4 as uuid4 } from "uuid";
 import { uploadSingleImage } from "../middleware/multer.middleware.js";
 
@@ -16,13 +18,14 @@ import {
 } from "./handlerFactory.js";
 
 export const resizeUserImage = asyncHandler(async (req, res, next) => {
-  const filename = `user ${uuid4()} ${Date.now()}.jpeg`;
+  const dir = ensureUploadDir("Users");
+  const filename = `user-${uuid4()}-${Date.now()}.jpeg`;
   if (req.file && req.file.buffer) {
     await sharp(req.file.buffer)
       .resize(600, 600)
       .toFormat("jpeg")
       .jpeg({ quality: 60 })
-      .toFile(`uploads/Users/${filename}`);
+      .toFile(path.join(dir, filename));
     req.body.imgProfile = filename;
   }
 

@@ -2,7 +2,9 @@ import brandModel from "../models/brand.model.js";
 import slugify from "slugify";
 import { AppError } from "../utils/errorhandler.js";
 import asyncHandler from "express-async-handler";
+import path from "path";
 import { ApiFeatures } from "../utils/api.Features.js";
+import { ensureUploadDir } from "../utils/ensureUploadDir.js";
 import { v4 as uuid4 } from "uuid";
 import sharp from "sharp";
 import {
@@ -19,13 +21,14 @@ import { uploadSingleImage } from "../middleware/multer.middleware.js";
 export const resizeImage = asyncHandler(async (req, res, next) => {
   if (!req.file) return next();
 
-  const filename = `brand ${uuid4()} ${Date.now()}.jpeg`;
+  const dir = ensureUploadDir("Brands");
+  const filename = `brand-${uuid4()}-${Date.now()}.jpeg`;
 
   await sharp(req.file.buffer)
     .resize(600, 600)
     .toFormat("jpeg")
     .jpeg({ quality: 60 })
-    .toFile(`uploads/Brands/${filename}`);
+    .toFile(path.join(dir, filename));
     req.body.image = filename;
   next();
 })

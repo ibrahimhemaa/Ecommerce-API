@@ -19,12 +19,85 @@ import {createReviewByProductID,  getReviewsforProductID } from "../Controller/r
 
 const router = express.Router({ mergeParams: true }); // لازم يكون هنا
 
+/**
+ * @swagger
+ * tags:
+ *   name: Reviews
+ *   description: Product reviews
+ */
+
+/**
+ * @swagger
+ * /reviews:
+ *   post:
+ *     summary: Create a review (user)
+ *     tags: [Reviews]
+ *     security: [{ bearerAuth: [] }]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title: { type: string }
+ *               ratings: { type: number }
+ *               product: { type: string }
+ *     responses:
+ *       201:
+ *         description: Review created
+ *   get:
+ *     summary: Get all reviews
+ *     tags: [Reviews]
+ *     responses:
+ *       200:
+ *         description: Reviews retrieved
+ */
 
  router
   .route("/")
   .post(auth, allowedTo("user"), createReviewByProductID, createReviewValidator, createReview)
   .get(getReviewsforProductID, getReviews);
 
+/**
+ * @swagger
+ * /reviews/{id}:
+ *   get:
+ *     summary: Get review by ID
+ *     tags: [Reviews]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Review retrieved
+ *   put:
+ *     summary: Update a review (owner only)
+ *     tags: [Reviews]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Review updated
+ *   delete:
+ *     summary: Delete a review (owner/admin)
+ *     tags: [Reviews]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Review deleted
+ */
 
 router
   .route("/:id")

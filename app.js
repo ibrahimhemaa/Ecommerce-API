@@ -24,11 +24,20 @@ import { connectDB } from "./DB/db.js";
 import { AppError } from "./utils/errorhandler.js";
 import { globalError } from "./middleware/error.middleware.js";
 import { swaggerDocs, swaggerSetup } from "./utils/swagger.js";
+import { ensureUploadDir } from "./utils/ensureUploadDir.js";
+
+ensureUploadDir("Products");
+ensureUploadDir("Categories");
+ensureUploadDir("Brands");
+ensureUploadDir("Users");
 
 
 const app = express();
 dotenv.config({ path: "./config.env" });
-connectDB();
+connectDB().catch((err) => {
+  console.error("DB connection failed:", err.message);
+  process.exit(1);
+});
 app.use(morgan("dev"));
 
 // Stripe webhook needs the raw body BEFORE express.json()
@@ -38,7 +47,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, 'uploads')));
+app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(
   "/api/docs",

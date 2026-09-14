@@ -13,7 +13,6 @@ const productSchema = new Schema(
     slug: { type: String, lowercase: true },
     description: {
       type: String,
-      require: [true, "Description is required"],
       minLength: [10, "Description should be greater than 10"],
       maxLength: [30, "Description should be less than 32"],
     },
@@ -47,7 +46,6 @@ const productSchema = new Schema(
     brand: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Brands",
-      required: true,
     },
     ratingsAverage: {
       type: Number,
@@ -69,39 +67,6 @@ productSchema.virtual("reviews", {
 
 productSchema.pre(/^find/, async function () {
     this.populate({ path: "category", select: "name -_id" })
-});
-productSchema.post("init", (doc) => {
-  if (doc.imageCover) {
-    const imageUrl = `${process.env.BASE_URL}/products/${doc.imageCover}`;
-    doc.imageCover = imageUrl;
-  }
-});
-productSchema.post("save", (doc) => {
-  if (doc.imageCover) {
-    const imageUrl = `${process.env.BASE_URL}/products/${doc.imageCover}`;
-    doc.imageCover = imageUrl;
-  }
-});
-productSchema.post("init", (doc) => {
-  const images = [];
-  if (doc.images) {
-    doc.images.forEach((img) => {
-      const imageUrl = `${process.env.BASE_URL}/products/${img}`;
-      images.push(imageUrl);
-    });
-  }
-  doc.images = images;
-});
-
-productSchema.post("save", (doc) => {
-  const images = [];
-  if (doc.images) {
-    doc.images.forEach((img) => {
-      const imageUrl = `${process.env.BASE_URL}/products/${img}`;
-      images.push(imageUrl);
-    });
-  }
-  doc.images = images;
 });
 
 export default mongoose.model("Product", productSchema);

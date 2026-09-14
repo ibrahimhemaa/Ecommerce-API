@@ -15,10 +15,61 @@ const router = express.Router();
 
 router.use(auth, allowedTo("user"));
 
+/**
+ * @swagger
+ * tags:
+ *   name: Wishlist
+ *   description: User wishlist
+ */
+
+/**
+ * @swagger
+ * /wishlist:
+ *   post:
+ *     summary: Add product to wishlist
+ *     tags: [Wishlist]
+ *     security: [{ bearerAuth: [] }]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productId: { type: string }
+ *     responses:
+ *       200:
+ *         description: Product added to wishlist
+ *   get:
+ *     summary: Get logged user's wishlist
+ *     tags: [Wishlist]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200:
+ *         description: Wishlist retrieved
+ */
+
 router
   .route("/")
   .post(addToWishlistValidator, addProductToWishlist)
   .get(getLoggedUserWishlist);
+
+/**
+ * @swagger
+ * /wishlist/{productId}:
+ *   delete:
+ *     summary: Remove product from wishlist
+ *     tags: [Wishlist]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Product removed from wishlist
+ */
 
 router.delete(
   "/:productId",

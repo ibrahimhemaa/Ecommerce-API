@@ -19,12 +19,87 @@ const router = express.Router();
 
 router.use(auth, allowedTo("admin"));
 
+/**
+ * @swagger
+ * tags:
+ *   name: Coupons
+ *   description: Discount coupons (admin)
+ */
+
+/**
+ * @swagger
+ * /coupons:
+ *   post:
+ *     summary: Create a coupon
+ *     tags: [Coupons]
+ *     security: [{ bearerAuth: [] }]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name: { type: string }
+ *               discount: { type: number }
+ *               expire: { type: string, format: date }
+ *     responses:
+ *       201:
+ *         description: Coupon created
+ *   get:
+ *     summary: Get all coupons
+ *     tags: [Coupons]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200:
+ *         description: Coupons retrieved
+ */
 
 router
   .route("/")
   .post(createCouponValidator, createCoupon)
   .get(getCoupons);
 
+/**
+ * @swagger
+ * /coupons/{id}:
+ *   get:
+ *     summary: Get coupon by ID
+ *     tags: [Coupons]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Coupon retrieved
+ *   put:
+ *     summary: Update a coupon
+ *     tags: [Coupons]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Coupon updated
+ *   delete:
+ *     summary: Delete a coupon
+ *     tags: [Coupons]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Coupon deleted
+ */
 
 router
   .route("/:id")

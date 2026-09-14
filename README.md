@@ -140,4 +140,3 @@ No Stripe, no credit card needed — the cash-on-delivery path covers most of th
 - Products track `sold` and `quantity`, and both are updated automatically when an order goes through.
 - Users are soft-deleted (marked inactive) rather than removed from the database.
 - The Stripe webhook needs you to point Stripe at `/api/payments/webhook` with your webhook signing secret in `config.env`.
-

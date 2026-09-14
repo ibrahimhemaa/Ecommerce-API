@@ -22,6 +22,39 @@ import { allowedTo } from "../middleware/roles.middleware.js";
 
 const router = express.Router({ mergeParams: true });
 
+/**
+ * @swagger
+ * tags:
+ *   name: SubCategories
+ *   description: Sub-category operations
+ */
+
+/**
+ * @swagger
+ * /subcategories:
+ *   post:
+ *     summary: Create a sub-category
+ *     tags: [SubCategories]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name: { type: string }
+ *               category: { type: string }
+ *     responses:
+ *       201:
+ *         description: Sub-category created
+ *   get:
+ *     summary: Get all sub-categories
+ *     tags: [SubCategories]
+ *     responses:
+ *       200:
+ *         description: Sub-categories retrieved
+ */
+
 router
   .route("/")
   .post(
@@ -36,6 +69,44 @@ router
     getSubCategoriesValidator,
     getSubCategories,
   );
+
+/**
+ * @swagger
+ * /subcategories/{id}:
+ *   put:
+ *     summary: Update a sub-category
+ *     tags: [SubCategories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Sub-category updated
+ *   get:
+ *     summary: Get sub-category by ID
+ *     tags: [SubCategories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Sub-category retrieved
+ *   delete:
+ *     summary: Delete a sub-category
+ *     tags: [SubCategories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Sub-category deleted
+ */
 
 router
   .route("/:id")

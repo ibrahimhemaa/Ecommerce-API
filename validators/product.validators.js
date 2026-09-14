@@ -4,6 +4,15 @@ import categoryModel from "../models/category.model.js";
 import subCategoryModel from "../models/subCategory.model.js";
 import mongoose from "mongoose";
 import slugify from 'slugify'
+
+const colorValidator = check("color")
+  .optional({ values: "falsy" })
+  .customSanitizer((value) =>
+    Array.isArray(value) ? value : [value],
+  )
+  .isArray()
+  .withMessage("color should be an array");
+
 export const getProductByIDValidator = [
   check("id").isMongoId().withMessage("invalid ID"),
   validator,
@@ -19,6 +28,7 @@ export const createProductValidator = [
     .isLength({ max: 32 })
     .withMessage("Title must be less than 32"),
   check("description")
+    .optional({ values: "falsy" })
     .isString()
     .withMessage("Description must be a String")
     .isLength({ min: 10 })
@@ -38,8 +48,7 @@ export const createProductValidator = [
     .withMessage("Price should be a Number")
     .toFloat(),
   check("priceAfterDiscount")
-    .notEmpty()
-    .withMessage("Discount Should not be Empty")
+    .optional({ checkFalsy: true })
     .isNumeric()
     .withMessage("Discount should be a Number")
     .toFloat()
@@ -50,10 +59,7 @@ export const createProductValidator = [
       return true;
     }),
 
-  check("color")
-    .optional({ values: "falsy" })
-    .isArray()
-    .withMessage("color should be an array"),
+  colorValidator,
    check("category")
     .notEmpty()
     .withMessage("Category is required")
@@ -92,10 +98,9 @@ export const createProductValidator = [
     ),
 
   check("brand")
+    .optional({ values: "falsy" })
     .isMongoId()
-    .withMessage("Invalid Mongo ID")
-    .notEmpty()
-    .withMessage("brand is required"),
+    .withMessage("Invalid Mongo ID"),
   check("ratingsAverage")
     .isNumeric()
     .withMessage("ratingsAverage should be a Number")
@@ -118,6 +123,7 @@ export const updateProductValidator = [
     .notEmpty()
     .withMessage("Invalid ID Format"),
   check("title").custom((val, { req }) => (req.body.slug = slugify(val))),
+  colorValidator,
   validator,
 ];
 

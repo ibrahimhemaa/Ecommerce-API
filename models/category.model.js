@@ -14,17 +14,4 @@ const categorySchema = new Schema(
   },
   { timestamps: true },
 );
-categorySchema.post("init",  (doc) => {
-  if (doc.image) {
-    const imageUrl = `${process.env.BASE_URL}/Categories/${doc.image}`;
-    doc.image = imageUrl;
-  }
-});
-
-categorySchema.post('save', function(doc) {
-    if (doc.image) {
-    const imageUrl = `${process.env.BASE_URL}/Categories/${doc.image}`;
-    doc.image = imageUrl;
-  }
- });
 export default mongoose.model("Category", categorySchema);
