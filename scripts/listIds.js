@@ -5,7 +5,7 @@ import categoryModel from "../models/category.model.js";
 import brandModel from "../models/brand.model.js";
 
 try {
-  await mongoose.connect(process.env.uriDB);
+  await mongoose.connect(process.env.URIDB);
   console.log("=== CATEGORIES ===");
   const cats = await categoryModel.find().lean();
   cats.forEach((c) => console.log(`${c._id}  ${c.name}`));

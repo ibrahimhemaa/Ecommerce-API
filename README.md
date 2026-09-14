@@ -34,7 +34,7 @@ Create a `config.env` file in the project root. It's already in `.gitignore`, so
 
 ```env
 PORT=5000
-uriDB=mongodb://127.0.0.1:27017/ecommerce
+URIDB=mongodb://127.0.0.1:27017/ecommerce
 BASE_URL=http://localhost:5000
 JWT_SECRET_KEY=some-long-random-string
 JET_EXPIRED_TIME=1d

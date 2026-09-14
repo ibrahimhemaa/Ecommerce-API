@@ -15,6 +15,6 @@ RUN mkdir -p /app/uploads/Products \
 
 RUN chmod -R 777 /app/uploads
 
-EXPOSE 3000
+EXPOSE 5000
 
 CMD ["npm", "run", "start:prod"]

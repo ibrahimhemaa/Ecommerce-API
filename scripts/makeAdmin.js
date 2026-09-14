@@ -6,7 +6,7 @@ import userModel from "../models/user.model.js";
 const email = process.argv[2] || "test@gmail.com";
 
 try {
-  await mongoose.connect(process.env.uriDB);
+  await mongoose.connect(process.env.URIDB);
   const result = await userModel.updateOne({ email }, { role: "admin" });
   console.log(`Matched: ${result.matchedCount} Modified: ${result.modifiedCount}`);
 
