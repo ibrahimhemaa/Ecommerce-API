@@ -22,8 +22,8 @@ export const createSubCategoryValidator = [
   validator,
 ];
 export const getSubCategoriesValidator = [
-  check("page").isInt().withMessage("page must be a number"),
-  check("limit").isInt().withMessage("limit must be a number"),
+  check("page").optional().isInt().withMessage("page must be a number"),
+  check("limit").optional().isInt().withMessage("limit must be a number"),
   validator,
 ];
 
